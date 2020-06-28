@@ -9,6 +9,8 @@
 # Importo le librerie che mi interessano
 import datetime
 from time import strftime
+import Manager_software
+
 
 # Definisco le funzioni che mi servono
 def data_corretta():
@@ -34,5 +36,18 @@ if __name__ == "__main__":
         print("Apro il databse dei progetti esistenti")
     if cosa_fare.upper() == 'N':
         print('Inizializzo il database per un nuovo progetto')
+        ID = 1
+        ID = Manager_software.controllo_ID()
+        while True:
+            file_name = str(Manager_software.genera_nome()) + ".db"  # genera il nome del file che ho bisogno
+            Lista = Manager_software.Interfaccia(ID)
+            print(Lista)
+            Manager_software.controllo_database(file_name, Lista)
+            Manager_software.genera_database(file_name, Lista)
+            Manager_software.controllo_ore(file_name, Lista)
+            ID = ID + 1
+            Continuo = input('Finito o no?(Y/N)')
+            if Continuo.upper() == 'Y':
+                break
     if cosa_fare.upper() != 'N' and cosa_fare.upper() != 'E':
         print('La funzione che hai scelto non esiste')
