@@ -13,6 +13,8 @@ from time import strftime
 import Manager_software
 import Lettura_DB
 from os.path import isfile
+from time import strftime
+
 
 # Definisco le funzioni che mi servono
 def data_corretta():
@@ -29,8 +31,6 @@ def data_corretta():
 def Ora():
     ora_aggiornata = strftime ('%H:%M')
     return(ora_aggiornata)
-
-
 
 
 # Main proram
