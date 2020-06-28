@@ -4,7 +4,8 @@
 # Author      : Andrea Grosso
 # Date        : 18.06.2020
 # Revision    : R0
-# note        :
+# note        : Il controllo delle ore non è corretto, da rivedere
+#               da vedere anche di gestire l'ID
 ########################################################################
 # Importo le librerie che mi interessano
 from datetime import date
@@ -26,21 +27,26 @@ def data_corretta():
     return(data_corretta)
 
 
-def Interfaccia(ID):
-    Week = date.today().isocalendar()[1]
+def Interfaccia(ID):                                                                                                    # funzione che mi completa la tebella con le funzioni che ho bisogno
+    week = date.today().isocalendar()[1]                                                                                # genera la settimana in base al calendario
     designer = input('Introduci il nome del designer \n')
     project = input('Introduci il nome del progetto \n')
-    drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
+    phaseoftheproject = input ("Il progetto a che punto è? (Handover, Site visit, Design) \n")
     kindofproject = input('Definisci la natura del disegno che hai bisogno (New, Asbuilt, Amendment) \n')
+    drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
     settimana = input('Il disegno deve essere fatto in questa settimana o nelle prossime?(Y/N) \n')
     if settimana.upper() == 'N':
         nuova_settimana = input('Introduci la settimana che vuoi il disegno \n')
-        Week = nuova_settimana
-    Timetodesign = input('Specifica quanto tempo serve per realizzare il disegno \n')
-    Deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
-    Date_login = data_corretta()
-    Lista = [ID, Week, designer.capitalize(), project.capitalize(), drawing.upper(), kindofproject.capitalize(), Timetodesign, Deadline, Date_login]
-    #print(Lista)
+        week = nuova_settimana
+    timetodesign = input('Specifica quanto tempo serve per realizzare il disegno \n')
+    deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
+    if len(deadline) != 10:
+        print('La data che hai introdotto non è corretta')
+        deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
+    state = input ('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close) \n')
+    date_login = data_corretta()
+    Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(), kindofproject.capitalize(),
+             drawing.upper(), timetodesign, deadline, state.capitalize(), date_login]                                   # genero la lista da passare al database
     return(Lista)
 
 
@@ -68,10 +74,12 @@ def genera_tabella(file_name, Lista):                                           
                      Week TEXT KEY NOT NULL,
                      Designer TEXT NOT NULL, 
                      Project TEXT NOT NULL,
+                     Phase_of_the_project TEXT NOT NULL,
+                     Kind_of_project TEXT NOT NULL,
                      Drawings TEXT NOT NULL,
-                     kind_of_project TEXT NOT NULL,
                      Time_to_design FLOAT NOT NULL,
                      Deadline TEXT NOT NULL,
+                     State_Design TEXT NOT NULL,
                      Date_login TEXT NOT NULL)'''.format(Nome_Table)
     c.execute(sql_cmd)
     Data_Base.commit()
@@ -81,11 +89,12 @@ def genera_tabella(file_name, Lista):                                           
 
 
 def genera_database(file_name, Lista):
-    Data_Base = sqlite3.connect(file_name)                                                                             # apre il file il sqlite con il nome che gli ho dato
+    Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
     c = Data_Base.cursor()
     Nome_Table = "'Week " + str(Lista[1]) + "'"
-    print(Nome_Table)
-    c.execute("INSERT INTO " + Nome_Table + 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', (Lista[0], Lista[1], Lista[2], Lista[3], Lista[4], Lista[5], Lista[6], Lista[7], Lista[8]))
+    #print(Nome_Table)
+    c.execute("INSERT INTO " + Nome_Table + 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+              (Lista[0], Lista[1], Lista[2], Lista[3], Lista[4], Lista[5], Lista[6], Lista[7], Lista[8], Lista[9], Lista[10]))
     Data_Base.commit()
     Data_Base.close()
     print('Data base creato')
@@ -100,19 +109,46 @@ def controllo_database(file_name, Lista):
         genera_tabella(file_name, Lista)
 
 
-# Main program
-if __name__ == "__main__":
-    ID = 1
-    while True:
-        file_name = str(genera_nome()) + ".db"                                                                          # genera il nome del file che ho bisogno
-        Lista = Interfaccia(ID)
-        print(Lista)
-        controllo_database(file_name, Lista)
-        genera_database(file_name, Lista)
-        ID = ID+1
-        Continuo = input('Finito o no?(Y/N)')
-        if Continuo.upper() == 'Y':
-            break
+def controllo_ore(file_name,Lista):                                                                                     # funzione che mi controlla le ore per settimana
+    Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
+    c = Data_Base.cursor()
+    Nome_Table = "'Week " + str(Lista[1]) + "'"
+    c.execute("SELECT * FROM" + Nome_Table)
+    rows = c.fetchall()
+    totale_ore = 0
+    for row in rows:
+        ID = row[0]
+        week = row[1]
+        designer = row[2]
+        project = row[3]
+        phaseoftheproject = row[4]
+        kindofproject = row[5]
+        drawing = row[6]
+        timetodesign = row[7]
+        deadline = row[8]
+        state = row[9]
+        date_login = row[10]
+        #print (ID, week, designer, project, design, site_visit, kindofproject, drawing, timetodesign, deadline, state, date_login)
+        totale_ore = totale_ore + timetodesign
+        if totale_ore >= 40:
+            avanzo = totale_ore - 40
+            print(avanzo)
+    print("il designer "+ designer + " ha " + str(totale_ore) + " la settimana numero " + str(week))
+
+
+def controllo_ID():
+    file_name = str(genera_nome()) + ".db"
+    Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
+    c = Data_Base.cursor()
+    week = date.today().isocalendar()[1]
+    Nome_Table = "'Week " + str(week) + "'"
+    c.execute("SELECT * FROM" + Nome_Table)
+    rows = c.fetchall()
+    for row in rows:
+        ID = row[0] + 1
+    return(ID)
+
+
 
 
 
@@ -126,7 +162,5 @@ if __name__ == "__main__":
     #a = input ('Introduci il valore di a /n')
     #tot = tot + int(a)
     #print(tot)
-    #if tot >= 40:
-        #avanzo = tot - 40
-        #print (avanzo)
+    #
         #break
