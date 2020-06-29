@@ -51,7 +51,7 @@ if __name__ == "__main__":
                 Lettura_DB.controllo_Ore(file_name, dati_da_leggere)
             if cosa_vedere.capitalize() == 'Progetti':
                 Lettura_DB.controllo_Progetti(file_name, dati_da_leggere)
-            Continuo = input('Finito o no?(Y/N)')
+            Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break
     if cosa_fare.upper() == 'N':
@@ -68,7 +68,7 @@ if __name__ == "__main__":
             Manager_software.genera_database(file_name, Lista)
             Manager_software.controllo_ore(file_name, Lista)
             ID = ID + 1
-            Continuo = input('Finito o no?(Y/N)')
+            Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break
     if cosa_fare.upper() != 'N' and cosa_fare.upper() != 'E':

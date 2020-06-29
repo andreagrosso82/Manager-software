@@ -47,10 +47,6 @@ def Interfaccia(ID):                                                            
     date_login = data_corretta()
     Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(), kindofproject.capitalize(),
              drawing.upper(), timetodesign, deadline, state.capitalize(), date_login]                                   # genero la lista da passare al database
-    state = input ('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close) \n')
-    date_login = data_corretta()
-    Lista = [ID, week, designer.capitalize(), project.capitalize(), design, site_visit, kindofproject.capitalize(),
-             drawing.upper(), timetodesign, deadline, state.capitalize(), date_login]                                   # genero la lista da passare al database
     #print(Lista)
     return(Lista)
 
