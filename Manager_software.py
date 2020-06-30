@@ -34,34 +34,38 @@ def Interfaccia(ID):                                                            
     phaseoftheproject = input ("Il progetto a che punto è? (Handover, Site visit, Design) \n")
     if phaseoftheproject.capitalize() != 'Handover' \
             and phaseoftheproject.capitalize() != 'Site visit' \
-            and phaseoftheproject.capitalize() != 'Design':                                                              #gestisce l'errore nel caso non introduco il corretto valore
+            and phaseoftheproject.capitalize() != 'Design':                                                             #gestisce l'errore nel caso non introduco il corretto valore
         print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
         phaseoftheproject = input("Il progetto a che punto è? (Handover, Site visit, Design) \n")
     kindofproject = input('Definisci la natura del disegno che hai bisogno (New, Asbuilt, Amendment) \n')
     if kindofproject.capitalize() != 'New' \
             and kindofproject.capitalize() != 'Asbuilt' \
-            and kindofproject.capitalize() != 'Amendment':                                                               #gestisce l'errore nel caso non introduco il corretto valore
-        print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
+            and kindofproject.capitalize() != 'Amendment':                                                              #gestisce l'errore nel caso non introduco il corretto valore
+        print('Non hai inserito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
         kindofproject = input('Definisci la natura del disegno che hai bisogno (New, Asbuilt, Amendment)\n')
     drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
     if drawing.upper() != 'GW' and drawing.upper() != 'PLR' and drawing.upper() != 'PID' and drawing.upper() != 'ELE' \
-            and drawing.upper() != 'CSD':                                                                                #gestisce l'errore nel caso non introduco il corretto valore
+            and drawing.upper() != 'CSD':                                                                               #gestisce l'errore nel caso non introduco il corretto valore
         print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
         drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
     settimana = input('Il disegno deve essere fatto in questa settimana o nelle prossime?(Y/N) \n')
     if settimana.upper() == 'N':
         nuova_settimana = input('Introduci la settimana che vuoi il disegno \n')
         week = nuova_settimana
+        ID = controllo_ID_WEEK(week)
     timetodesign = input('Specifica quanto tempo serve per realizzare il disegno \n')
+    if timetodesign.ischar() == True:                                                                                   #gestisce l'errore nel caso non introduco il corretto valore
+        print("Il valore che hai introdotto non e' corretto")
+        timetodesign = input('Specifica quanto tempo serve per realizzare il disegno \n')
     deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
     if len(deadline) != 10:
         print('La data che hai introdotto non è corretta')
         deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
-    state = input ('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close) \n')
+    state = input ('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close, On hold) \n')
     if state.capitalize() != 'In progress' and state.capitalize() != 'Ready to review' and \
-            state.capitalize() != 'Amendments' and state.capitalize() != 'Close':                                        #gestisce l'errore nel caso non introduco il corretto valore
+            state.capitalize() != 'Amendments' and state.capitalize() != 'Close' and state.capitalize() != 'On hold':   #gestisce l'errore nel caso non introduco il corretto valore
         print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
-        state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close) \n')
+        state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close, On hold) \n')
     date_login = data_corretta()
     Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(),
              kindofproject.capitalize(), drawing.upper(), timetodesign, deadline, state.capitalize(), date_login]       # genero la lista da passare al database
@@ -87,7 +91,8 @@ def genera_file(file_name):                                                     
 def genera_tabella(file_name, Lista):                                                                                   # genera la tabella con la data corrente
     Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
     c = Data_Base.cursor()
-    Nome_Table = "'Week " + str(Lista[1]) + "'"
+    Nome_Table = "'Week " + str(Lista) + "'"
+    #Nome_Table = "'Week " + str(Lista[1]) + "'"
     sql_cmd = '''CREATE TABLE IF NOT EXISTS {}
                     (ID INT PRIMARY KEY NOT NULL,
                      Week TEXT KEY NOT NULL,
@@ -168,7 +173,16 @@ def controllo_ID():
     return(ID)
 
 
-
+def controllo_ID_WEEK(week):
+    file_name = str(genera_nome()) + ".db"
+    Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
+    c = Data_Base.cursor()
+    Nome_Table = "'Week " + str(week) + "'"
+    c.execute("SELECT * FROM" + Nome_Table)
+    rows = c.fetchall()
+    for row in rows:
+        ID = row[0] + 1
+    return(ID)
 
 
 

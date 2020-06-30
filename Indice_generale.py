@@ -57,7 +57,7 @@ if __name__ == "__main__":
     if cosa_fare.upper() == 'N':
         print('Inizializzo il database per un nuovo progetto')
         file_name = str(Manager_software.genera_nome()) + ".db"
-        if not isfile(file_name):                                                                                   # controlla se il file esiste gia' o deve essere creato
+        if not isfile(file_name):                                                                                       # controlla se il file esiste gia' o deve essere creato
             ID = 1
         else:
             ID = Manager_software.controllo_ID()
@@ -69,6 +69,9 @@ if __name__ == "__main__":
             Manager_software.controllo_ore(file_name, Lista)
             ID = ID + 1
             Continuo = input('Finito o no?(Y/N)\n')
+            if Continuo.upper() != 'N' and Continuo.upper() !='Y':
+                print("Il risposta che hai introdotto non e' corretta")
+                Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break
     if cosa_fare.upper() != 'N' and cosa_fare.upper() != 'E':
