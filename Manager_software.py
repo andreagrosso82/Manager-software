@@ -5,7 +5,7 @@
 # Date        : 18.06.2020
 # Revision    : R0
 # note        : Il controllo delle ore non è corretto, da rivedere
-#               da vedere anche di gestire l'ID
+#               Il controllo della data deve essere fatto correttamente
 ########################################################################
 # Importo le librerie che mi interessano
 from datetime import date
@@ -32,8 +32,22 @@ def Interfaccia(ID):                                                            
     designer = input('Introduci il nome del designer \n')
     project = input('Introduci il nome del progetto \n')
     phaseoftheproject = input ("Il progetto a che punto è? (Handover, Site visit, Design) \n")
+    if phaseoftheproject.capitalize() != 'Handover' \
+            and phaseoftheproject.capitalize() != 'Site visit' \
+            and phaseoftheproject.capitalize() != 'Design':                                                              #gestisce l'errore nel caso non introduco il corretto valore
+        print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
+        phaseoftheproject = input("Il progetto a che punto è? (Handover, Site visit, Design) \n")
     kindofproject = input('Definisci la natura del disegno che hai bisogno (New, Asbuilt, Amendment) \n')
+    if kindofproject.capitalize() != 'New' \
+            and kindofproject.capitalize() != 'Asbuilt' \
+            and kindofproject.capitalize() != 'Amendment':                                                               #gestisce l'errore nel caso non introduco il corretto valore
+        print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
+        kindofproject = input('Definisci la natura del disegno che hai bisogno (New, Asbuilt, Amendment)\n')
     drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
+    if drawing.upper() != 'GW' and drawing.upper() != 'PLR' and drawing.upper() != 'PID' and drawing.upper() != 'ELE' \
+            and drawing.upper() != 'CSD':                                                                                #gestisce l'errore nel caso non introduco il corretto valore
+        print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
+        drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
     settimana = input('Il disegno deve essere fatto in questa settimana o nelle prossime?(Y/N) \n')
     if settimana.upper() == 'N':
         nuova_settimana = input('Introduci la settimana che vuoi il disegno \n')
@@ -44,9 +58,13 @@ def Interfaccia(ID):                                                            
         print('La data che hai introdotto non è corretta')
         deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
     state = input ('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close) \n')
+    if state.capitalize() != 'In progress' and state.capitalize() != 'Ready to review' and \
+            state.capitalize() != 'Amendments' and state.capitalize() != 'Close':                                        #gestisce l'errore nel caso non introduco il corretto valore
+        print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
+        state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close) \n')
     date_login = data_corretta()
-    Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(), kindofproject.capitalize(),
-             drawing.upper(), timetodesign, deadline, state.capitalize(), date_login]                                   # genero la lista da passare al database
+    Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(),
+             kindofproject.capitalize(), drawing.upper(), timetodesign, deadline, state.capitalize(), date_login]       # genero la lista da passare al database
     #print(Lista)
     return(Lista)
 
