@@ -133,7 +133,7 @@ def controllo_database(file_name, Lista):
         genera_tabella(file_name, Lista)
 
 
-def controllo_ore(file_name,Lista):                                                                                     # funzione che mi controlla le ore per settimana
+def controllo_ore(file_name, Lista):                                                                                     # funzione che mi controlla le ore per settimana
     Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
     c = Data_Base.cursor()
     Nome_Table = "'Week " + str(Lista[1]) + "'"
@@ -158,7 +158,7 @@ def controllo_ore(file_name,Lista):                                             
             avanzo = totale_ore - 40
             print(avanzo)
     print("il designer "+ designer + " ha " + str(totale_ore) + " la settimana numero " + str(week))
-
+    return()
 
 def controllo_ID():
     file_name = str(genera_nome()) + ".db"
