@@ -54,9 +54,9 @@ def Interfaccia(ID):                                                            
         week = nuova_settimana
         ID = controllo_ID_WEEK(week)
     timetodesign = input('Specifica quanto tempo serve per realizzare il disegno \n')
-    if timetodesign.ischar() == True:                                                                                   #gestisce l'errore nel caso non introduco il corretto valore
-        print("Il valore che hai introdotto non e' corretto")
-        timetodesign = input('Specifica quanto tempo serve per realizzare il disegno \n')
+    #if timetodesign.ischar() == True:                                                                                   #gestisce l'errore nel caso non introduco il corretto valore
+        #print("Il valore che hai introdotto non e' corretto")
+        #timetodesign = input('Specifica quanto tempo serve per realizzare il disegno \n')
     deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
     if len(deadline) != 10:
         print('La data che hai introdotto non è corretta')
@@ -68,7 +68,7 @@ def Interfaccia(ID):                                                            
         state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close, On hold) \n')
     date_login = data_corretta()
     Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(),
-             kindofproject.capitalize(), drawing.upper(), timetodesign, deadline, state.capitalize(), date_login]       # genero la lista da passare al database
+             kindofproject.capitalize(), drawing.upper(), float(timetodesign), deadline, state.capitalize(), date_login]# genero la lista da passare al database
     #print(Lista)
     return(Lista)
 
@@ -91,8 +91,8 @@ def genera_file(file_name):                                                     
 def genera_tabella(file_name, Lista):                                                                                   # genera la tabella con la data corrente
     Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
     c = Data_Base.cursor()
-    Nome_Table = "'Week " + str(Lista) + "'"
-    #Nome_Table = "'Week " + str(Lista[1]) + "'"
+    #Nome_Table = "'Week " + str(Lista) + "'"
+    Nome_Table = "'Week " + str(Lista[1]) + "'"
     sql_cmd = '''CREATE TABLE IF NOT EXISTS {}
                     (ID INT PRIMARY KEY NOT NULL,
                      Week TEXT KEY NOT NULL,
@@ -148,7 +148,7 @@ def controllo_ore(file_name, Lista):                                            
         phaseoftheproject = row[4]
         kindofproject = row[5]
         drawing = row[6]
-        timetodesign = row[7]
+        timetodesign = float(row[7])
         deadline = row[8]
         state = row[9]
         date_login = row[10]

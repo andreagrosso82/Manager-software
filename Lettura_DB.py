@@ -72,7 +72,7 @@ def controllo_Progetti(file_name,dati_da_leggere):                              
         if designer == dati_da_leggere[1]:
             if state == 'In progress':
                 print(designer + " sta lavorando su: " + project + " e sul disegno: " + drawing
-                  + " di cui ci vogliono:" + str(timetodesign))
+                  + " di cui ci vogliono:" + str(timetodesign) + " il disegno e' per il " + deadline)
 
 
 def progetti_to_review(file_name,dati_da_leggere):                                                                      # funzione che mi controlla i project to review
