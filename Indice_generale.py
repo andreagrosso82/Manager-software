@@ -14,7 +14,7 @@ import Manager_software
 import Lettura_DB
 from os.path import isfile
 from time import strftime
-
+import Settimane
 
 # Definisco le funzioni che mi servono
 def data_corretta():
@@ -59,7 +59,15 @@ if __name__ == "__main__":
         settimana_corrente = date.today().isocalendar()[1]
         file_name = str(Manager_software.genera_nome()) + ".db"
         while True:
-            week = input('Introduci la settimana che vuoi visualizzare, la settimana corrente è ' + str(settimana_corrente) + '\n')
+            print('La settimana corrente è ' + str(settimana_corrente) + '\n')
+            scegli_week = input("Vuoi vedere l'elenco delle settimane (Y/N) \n")
+            if scegli_week.capitalize() == 'Y':
+                Settimane.elenco_settimane()
+                week = input('Introduci la settimana \n')
+            if scegli_week.capitalize() =='N':
+                week = input('Introduci la settimana \n')
+            if scegli_week.capitalize() != 'Y' and scegli_week.capitalize() !='N':
+                print("La risposta che hai introdotto non e' corretta")
             if week != settimana_corrente:
                 ore_settimanali = 40
             designer = input('Inserisci il nome del designer di cui vuoi vedere le informazioni \n')
@@ -78,11 +86,21 @@ if __name__ == "__main__":
     if cosa_fare.upper() == 'N':
         print('Inizializzo il database per un nuovo progetto')
         file_name = str(Manager_software.genera_nome()) + ".db"
+        settimana_corrente = date.today().isocalendar()[1]
         if not isfile(file_name):                                                                                       # controlla se il file esiste gia' o deve essere creato
             ID = 1
         else:
             ID = Manager_software.controllo_ID()
         while True:
+            print('La settimana corrente è ' + str(settimana_corrente) + '\n')
+            scegli_week = input("Vuoi vedere l'elenco delle settimane (Y/N) \n")
+            if scegli_week.capitalize() == 'Y':
+                Settimane.elenco_settimane()
+                week = input('Introduci la settimana \n')
+            if scegli_week.capitalize() == 'N':
+                week = input('Introduci la settimana \n')
+            if scegli_week.capitalize() != 'Y' and scegli_week.capitalize() != 'N':
+                print("La risposta che hai introdotto non e' corretta")
             Lista = Manager_software.Interfaccia(ID)
             print(Lista)
             Manager_software.controllo_database(file_name, Lista)

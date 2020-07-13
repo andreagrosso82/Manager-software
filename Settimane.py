@@ -67,23 +67,36 @@ def controllo_ID(file_name):
     return(ID)
 
 
+def elenco_settimane():
+    Data_Base = sqlite3.connect("Settimane.db")                                                                              # apre il file il sqlite con il nome che gli ho dato
+    c = Data_Base.cursor()
+    Nome_Table = "'Settimane 2020'"
+    c.execute("SELECT * FROM" + Nome_Table)
+    rows = c.fetchall()
+    for row in rows:
+        week = row[1]
+        dal = row[2]
+        al = row[3]
+        print("La settimana " + week + " va dal " + dal + " al " + al)
+    return ()
+
 
 
 # Main proram
-if __name__ == "__main__":
-    ID = 1
-    file_name = "Settimane.db"
-    while True:
-        ID = controllo_ID(file_name)
-        controllo_database(file_name)
-        week = input('Introduci la settimana \n')
-        dal = input('Quando inizia la settimana \n')
-        al = input('Quando finisce la settimana \n')
-        Lista = [ID, week, dal, al]
-        genera_database(file_name, Lista)
-        Continuo = input('Finito o no?(Y/N)\n')
-        if Continuo.upper() != 'N' and Continuo.upper() != 'Y':
-            print("Il risposta che hai introdotto non e' corretta")
-            Continuo = input('Finito o no?(Y/N)\n')
-        if Continuo.upper() == 'Y':
-            break
+#if __name__ == "__main__":
+    #ID = 1
+    #file_name = "Settimane.db"
+    #while True:
+        #ID = controllo_ID(file_name)
+        #controllo_database(file_name)
+        #week = input('Introduci la settimana \n')
+        #dal = input('Quando inizia la settimana \n')
+        #al = input('Quando finisce la settimana \n')
+        #Lista = [ID, week, dal, al]
+        #genera_database(file_name, Lista)
+        #Continuo = input('Finito o no?(Y/N)\n')
+        #if Continuo.upper() != 'N' and Continuo.upper() != 'Y':
+            #print("Il risposta che hai introdotto non e' corretta")
+            #Continuo = input('Finito o no?(Y/N)\n')
+        #if Continuo.upper() == 'Y':
+            #break
