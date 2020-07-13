@@ -44,6 +44,7 @@ def controllo_Ore(file_name, dati_da_leggere):                                  
     ore_libere = ore - totale_ore
     print(dati_da_leggere[1] + ' ha ' + str(ore_libere) + ' ore libere')
 
+
 def genera_nome():                                                                                                      # genera il nome del file
     mese = time.strftime("%B")                                                                                          # importa il mese
     anno = time.strftime("%Y")                                                                                          # importa l'anno

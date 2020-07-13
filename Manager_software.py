@@ -190,6 +190,8 @@ def controllo_ID_WEEK(week):
 
 
 
+
+
 #tot = 0
 #while True:
     #a = input ('Introduci il valore di a /n')

@@ -2,8 +2,8 @@
 # Filename    : Indice_generale.py
 # Description : Interfaccia che mi porta nelle varie sottosezione del programma
 # Author      : Andrea Grosso
-# Date        : 24-06-2020
-# Revision    : R0
+# Date        : 13-07-2020
+# Revision    : R1
 # note        : Inizio a codificare, ma senza aggiungere nessuna interfaccia grafice
 ########################################################################
 # Importo le librerie che mi interessano
@@ -52,7 +52,10 @@ def ore_settimanali():
 if __name__ == "__main__":
     print("Oggi e' il giorno ", data_corretta())
     print("Ciao Andrea \nti sei loggato alle ", Ora())
-    cosa_fare = input("Cosa vuoi fare? \nvedere un progetto Esistente o inserire un Nuovo progetto?\n")
+    cosa_fare = input("Cosa vuoi fare: \n1)Vedere un progetto Esistente(E)\n"
+                      "2) Inserire un Nuovo progetto (N)\n"
+                      "3) Modificare un progetto esistente (M)\n"
+                      "4) Vedere se ci sono progetti da ricedere (R)\n")
     ore_settimanali = float(ore_settimanali())
     if cosa_fare.upper() == 'E':
         print("Apro il databse dei progetti esistenti")
@@ -113,5 +116,24 @@ if __name__ == "__main__":
                 Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break
+    if cosa_fare.upper() == 'M':
+        print("Modifichiamo progetto esistente")
+        settimana_corrente = date.today().isocalendar()[1]
+        file_name = str(Manager_software.genera_nome()) + ".db"
+        while True:
+            print('La settimana corrente è ' + str(settimana_corrente) + '\n')
+            scegli_week = input("Vuoi vedere l'elenco delle settimane (Y/N) \n")
+            if scegli_week.capitalize() == 'Y':
+                Settimane.elenco_settimane()
+                week = input('Introduci la settimana \n')
+            if scegli_week.capitalize() == 'N':
+                week = input('Introduci la settimana \n')
+            if scegli_week.capitalize() != 'Y' and scegli_week.capitalize() != 'N':
+                print("La risposta che hai introdotto non e' corretta")
+            progetto = input('Inserisci il nome del progetto di cui vuoi modificare le informazioni \n')
+            drawing = input('Introduci il tipo di drawing che deve modificare(GW,PLR,PID,ELE,CSD) \n')
+            state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close, On hold) \n')
+            dati_da_modificare = [progetto.capitalize(), drawing.upper(), state.capitalize()]
+
     if cosa_fare.upper() != 'N' and cosa_fare.upper() != 'E':
         print('La funzione che hai scelto non esiste')
