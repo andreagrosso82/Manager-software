@@ -52,10 +52,11 @@ def ore_settimanali():
 if __name__ == "__main__":
     print("Oggi e' il giorno ", data_corretta())
     print("Ciao Andrea \nti sei loggato alle ", Ora())
-    cosa_fare = input("Cosa vuoi fare: \n1)Vedere un progetto Esistente(E)\n"
+    cosa_fare = input("Cosa vuoi fare: \n"
+                      "1) Vedere un progetti Esistente(E)\n"
                       "2) Inserire un Nuovo progetto (N)\n"
                       "3) Modificare un progetto esistente (M)\n"
-                      "4) Vedere se ci sono progetti da ricedere (R)\n")
+                      "4) Vedere se ci sono progetti da rivedere (R)\n")
     ore_settimanali = float(ore_settimanali())
     if cosa_fare.upper() == 'E':
         print("Apro il databse dei progetti esistenti")
@@ -82,7 +83,7 @@ if __name__ == "__main__":
                 print('LISTA PROGETTI IN CORSO \n')
                 Lettura_DB.controllo_Progetti(file_name, dati_da_leggere)
                 print('LISTA PROGETTI DA REVISIONARE \n')
-                Lettura_DB.progetti_to_review(file_name,dati_da_leggere)
+                Lettura_DB.progetti_to_review(file_name, dati_da_leggere)
             Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break
