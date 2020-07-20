@@ -2,9 +2,9 @@
 # Filename    : Indice_generale.py
 # Description : Interfaccia che mi porta nelle varie sottosezione del programma
 # Author      : Andrea Grosso
-# Date        : 13-07-2020
-# Revision    : R1
-# note        : Inizio a codificare, ma senza aggiungere nessuna interfaccia grafice
+# Date        : 18-07-2020
+# Revision    : R2
+# note        : Iniziate alcune modifiche per l'interfaccia
 ########################################################################
 # Importo le librerie che mi interessano
 import datetime
@@ -52,7 +52,8 @@ def ore_settimanali():
 if __name__ == "__main__":
     print("Oggi e' il giorno ", data_corretta())
     print("Ciao Andrea \nti sei loggato alle ", Ora())
-    cosa_fare = input("Cosa vuoi fare: \n1)Vedere un progetto Esistente(E)\n"
+    cosa_fare = input("Cosa vuoi fare: \n"
+                      "1) Vedere un progetto Esistente(E)\n"
                       "2) Inserire un Nuovo progetto (N)\n"
                       "3) Modificare un progetto esistente (M)\n"
                       "4) Vedere se ci sono progetti da ricedere (R)\n")
@@ -83,6 +84,8 @@ if __name__ == "__main__":
                 Lettura_DB.controllo_Progetti(file_name, dati_da_leggere)
                 print('LISTA PROGETTI DA REVISIONARE \n')
                 Lettura_DB.progetti_to_review(file_name,dati_da_leggere)
+                print("LISTA PROGETTI GIA' REVISIONATI MA CON MODIFICHE DA FARE \n")
+                print('LISTA PROGETTI INTERNI \n')
             Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break

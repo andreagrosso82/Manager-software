@@ -2,10 +2,10 @@
 # Filename    : Manager_software.py
 # Description : programma che mi aiuta a gestire le ore che il mio team deve spendere per design
 # Author      : Andrea Grosso
-# Date        : 18.06.2020
-# Revision    : R0
-# note        : Il controllo delle ore non è corretto, da rivedere
-#               Il controllo della data deve essere fatto correttamente
+# Date        : 18.07.2020
+# Revision    : R1
+# note        : Aggiunto Sale Support e note durante la creazione della tabella
+#             : Vedere di gestire il numero di caratteri per i commenti (Max 20)
 ########################################################################
 # Importo le librerie che mi interessano
 from datetime import date
@@ -31,12 +31,13 @@ def Interfaccia(ID):                                                            
     week = date.today().isocalendar()[1]                                                                                # genera la settimana in base al calendario
     designer = input('Introduci il nome del designer \n')
     project = input('Introduci il nome del progetto \n')
-    phaseoftheproject = input ("Il progetto a che punto è? (Handover, Site visit, Design) \n")
-    if phaseoftheproject.capitalize() != 'Handover' \
+    phaseoftheproject = input("Il progetto a che punto è? (Sale support, Handover, Site visit, Design) \n")
+    if phaseoftheproject.capitalize() != 'Sale support' \
+            and phaseoftheproject.capitalize() != 'Handover' \
             and phaseoftheproject.capitalize() != 'Site visit' \
             and phaseoftheproject.capitalize() != 'Design':                                                             #gestisce l'errore nel caso non introduco il corretto valore
-        print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
-        phaseoftheproject = input("Il progetto a che punto è? (Handover, Site visit, Design) \n")
+        print('Non hai inserito la risposta corretta alla domanda, leggi la domanda con maggior attenzione!!')
+        phaseoftheproject = input("Il progetto a che punto è? (Sale support, Handover, Site visit, Design) \n")
     kindofproject = input('Definisci la natura del disegno che hai bisogno (New, Asbuilt, Amendment) \n')
     if kindofproject.capitalize() != 'New' \
             and kindofproject.capitalize() != 'Asbuilt' \
@@ -44,9 +45,12 @@ def Interfaccia(ID):                                                            
         print('Non hai inserito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
         kindofproject = input('Definisci la natura del disegno che hai bisogno (New, Asbuilt, Amendment)\n')
     drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
-    if drawing.upper() != 'GW' and drawing.upper() != 'PLR' and drawing.upper() != 'PID' and drawing.upper() != 'ELE' \
+    if drawing.upper() != 'GW' \
+            and drawing.upper() != 'PLR' \
+            and drawing.upper() != 'PID' and \
+            drawing.upper() != 'ELE' \
             and drawing.upper() != 'CSD':                                                                               #gestisce l'errore nel caso non introduco il corretto valore
-        print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
+        print('Non hai inserito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
         drawing = input('Introduci il tipo di drawing che deve produrre(GW,PLR,PID,ELE,CSD) \n')
     settimana = input('Il disegno deve essere fatto in questa settimana o nelle prossime?(Y/N) \n')
     if settimana.upper() == 'N':
@@ -61,15 +65,19 @@ def Interfaccia(ID):                                                            
     if len(deadline) != 10:
         print('La data che hai introdotto non è corretta')
         deadline = input("Per quando e' il progetto?(Introduci la data nel seguente formato GG-MM-ANNO) \n")
-    state = input ('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close, On hold) \n')
-    if state.capitalize() != 'In progress' and state.capitalize() != 'Ready to review' and \
-            state.capitalize() != 'Amendments' and state.capitalize() != 'Close' and state.capitalize() != 'On hold':   #gestisce l'errore nel caso non introduco il corretto valore
+    state = input ('definisci lo stato del progetto (In progress, Ready to review, Amendments, Sign-off, On hold) \n')
+    if state.capitalize() != 'In progress' \
+            and state.capitalize() != 'Ready to review' \
+            and state.capitalize() != 'Amendments' \
+            and state.capitalize() != 'Sign-off' \
+            and state.capitalize() != 'On hold':                                                                        #gestisce l'errore nel caso non introduco il corretto valore
         print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
-        state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Close, On hold) \n')
+        state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Sign-off, On hold) \n')
     date_login = data_corretta()
+    note = input('Note da aggiungere (max 20 caratteri)')
     Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(),
-             kindofproject.capitalize(), drawing.upper(), float(timetodesign), deadline, state.capitalize(), date_login]# genero la lista da passare al database
-    #print(Lista)
+             kindofproject.capitalize(), drawing.upper(), float(timetodesign), deadline, state.capitalize(),
+             date_login, note]                                                                                          # genero la lista da passare al database
     return(Lista)
 
 
@@ -104,7 +112,8 @@ def genera_tabella(file_name, Lista):                                           
                      Time_to_design FLOAT NOT NULL,
                      Deadline TEXT NOT NULL,
                      State_Design TEXT NOT NULL,
-                     Date_login TEXT NOT NULL)'''.format(Nome_Table)
+                     Date_login TEXT NOT NULL,
+                     Note TEXT NOT NULL)'''.format(Nome_Table)
     c.execute(sql_cmd)
     Data_Base.commit()
     Data_Base.close()
@@ -117,8 +126,9 @@ def genera_database(file_name, Lista):
     c = Data_Base.cursor()
     Nome_Table = "'Week " + str(Lista[1]) + "'"
     #print(Nome_Table)
-    c.execute("INSERT INTO " + Nome_Table + 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-              (Lista[0], Lista[1], Lista[2], Lista[3], Lista[4], Lista[5], Lista[6], Lista[7], Lista[8], Lista[9], Lista[10]))
+    c.execute("INSERT INTO " + Nome_Table + 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+              (Lista[0], Lista[1], Lista[2], Lista[3], Lista[4], Lista[5], Lista[6], Lista[7],
+               Lista[8], Lista[9], Lista[10], Lista[11]))
     Data_Base.commit()
     Data_Base.close()
     print('Data base creato')
