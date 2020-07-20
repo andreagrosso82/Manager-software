@@ -56,7 +56,7 @@ if __name__ == "__main__":
                       "1) Vedere un progetto Esistente(E)\n"
                       "2) Inserire un Nuovo progetto (N)\n"
                       "3) Modificare un progetto esistente (M)\n"
-                      "4) Vedere se ci sono progetti da ricedere (R)\n")
+                      "4) Vedere se ci sono progetti da rivedere (R)\n")
     ore_settimanali = float(ore_settimanali())
     if cosa_fare.upper() == 'E':
         print("Apro il databse dei progetti esistenti")
