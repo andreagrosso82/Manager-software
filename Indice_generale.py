@@ -2,9 +2,9 @@
 # Filename    : Indice_generale.py
 # Description : Interfaccia che mi porta nelle varie sottosezione del programma
 # Author      : Andrea Grosso
-# Date        : 18-07-2020
-# Revision    : R2
-# note        : Iniziate alcune modifiche per l'interfaccia
+# Date        : 21-07-2020
+# Revision    : R3
+# note        : Aggiunto commenti
 ########################################################################
 # Importo le librerie che mi interessano
 import datetime
@@ -58,6 +58,7 @@ if __name__ == "__main__":
                       "3) Modificare un progetto esistente (M)\n"
                       "4) Vedere se ci sono progetti da rivedere (R)\n")
     ore_settimanali = float(ore_settimanali())
+#Parte riguardante i progetti esistenti
     if cosa_fare.upper() == 'E':
         print("Apro il databse dei progetti esistenti")
         settimana_corrente = date.today().isocalendar()[1]
@@ -89,6 +90,7 @@ if __name__ == "__main__":
             Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break
+# Parte riguardante i nuovi progetti
     if cosa_fare.upper() == 'N':
         print('Inizializzo il database per un nuovo progetto')
         file_name = str(Manager_software.genera_nome()) + ".db"
@@ -105,9 +107,6 @@ if __name__ == "__main__":
                 week = input('Introduci la settimana \n')
             if scegli_week.capitalize() == 'N':
                 week = input('Introduci la settimana \n')
-                settimana_corrente = week
-                print(settimana_corrente)
-                ID = Manager_software.controllo_ID(settimana_corrente)
             if scegli_week.capitalize() != 'Y' and scegli_week.capitalize() != 'N':
                 print("La risposta che hai introdotto non e' corretta")
             Lista = Manager_software.Interfaccia(ID)
@@ -122,6 +121,7 @@ if __name__ == "__main__":
                 Continuo = input('Finito o no?(Y/N)\n')
             if Continuo.upper() == 'Y':
                 break
+# Parte riguardante i progetti esistenti
     if cosa_fare.upper() == 'M':
         print("Modifichiamo progetto esistente")
         settimana_corrente = date.today().isocalendar()[1]
