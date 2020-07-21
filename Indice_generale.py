@@ -96,7 +96,7 @@ if __name__ == "__main__":
         if not isfile(file_name):                                                                                       # controlla se il file esiste gia' o deve essere creato
             ID = 1
         else:
-            ID = Manager_software.controllo_ID()
+            ID = Manager_software.controllo_ID(settimana_corrente)
         while True:
             print('La settimana corrente è ' + str(settimana_corrente) + '\n')
             scegli_week = input("Vuoi vedere l'elenco delle settimane (Y/N) \n")
@@ -105,6 +105,9 @@ if __name__ == "__main__":
                 week = input('Introduci la settimana \n')
             if scegli_week.capitalize() == 'N':
                 week = input('Introduci la settimana \n')
+                settimana_corrente = week
+                print(settimana_corrente)
+                ID = Manager_software.controllo_ID(settimana_corrente)
             if scegli_week.capitalize() != 'Y' and scegli_week.capitalize() != 'N':
                 print("La risposta che hai introdotto non e' corretta")
             Lista = Manager_software.Interfaccia(ID)

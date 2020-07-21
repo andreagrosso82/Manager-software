@@ -74,10 +74,10 @@ def Interfaccia(ID):                                                            
         print('Non hai insirito la corretta risposta alla domanda, leggi la domanda con maggior attenzione')
         state = input('definisci lo stato del progetto (In progress, Ready to review, Amendments, Sign-off, On hold) \n')
     date_login = data_corretta()
-    note = input('Note da aggiungere (max 20 caratteri)')
+    #note = input('Note da aggiungere (max 20 caratteri)')
     Lista = [ID, week, designer.capitalize(), project.capitalize(), phaseoftheproject.capitalize(),
              kindofproject.capitalize(), drawing.upper(), float(timetodesign), deadline, state.capitalize(),
-             date_login, note]                                                                                          # genero la lista da passare al database
+             date_login]                                                                                          # genero la lista da passare al database
     return(Lista)
 
 
@@ -112,8 +112,7 @@ def genera_tabella(file_name, Lista):                                           
                      Time_to_design FLOAT NOT NULL,
                      Deadline TEXT NOT NULL,
                      State_Design TEXT NOT NULL,
-                     Date_login TEXT NOT NULL,
-                     Note TEXT NOT NULL)'''.format(Nome_Table)
+                     Date_login TEXT NOT NULL)'''.format(Nome_Table)
     c.execute(sql_cmd)
     Data_Base.commit()
     Data_Base.close()
@@ -126,9 +125,9 @@ def genera_database(file_name, Lista):
     c = Data_Base.cursor()
     Nome_Table = "'Week " + str(Lista[1]) + "'"
     #print(Nome_Table)
-    c.execute("INSERT INTO " + Nome_Table + 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+    c.execute("INSERT INTO " + Nome_Table + 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
               (Lista[0], Lista[1], Lista[2], Lista[3], Lista[4], Lista[5], Lista[6], Lista[7],
-               Lista[8], Lista[9], Lista[10], Lista[11]))
+               Lista[8], Lista[9], Lista[10]))
     Data_Base.commit()
     Data_Base.close()
     print('Data base creato')
@@ -170,11 +169,11 @@ def controllo_ore(file_name, Lista):                                            
     print("il designer "+ designer + " ha " + str(totale_ore) + " la settimana numero " + str(week))
     return()
 
-def controllo_ID():
+def controllo_ID(settimana_corrente):
     file_name = str(genera_nome()) + ".db"
     Data_Base = sqlite3.connect(file_name)                                                                              # apre il file il sqlite con il nome che gli ho dato
     c = Data_Base.cursor()
-    week = date.today().isocalendar()[1]
+    week = settimana_corrente
     Nome_Table = "'Week " + str(week) + "'"
     c.execute("SELECT * FROM" + Nome_Table)
     rows = c.fetchall()
