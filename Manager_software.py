@@ -2,10 +2,12 @@
 # Filename    : Manager_software.py
 # Description : programma che mi aiuta a gestire le ore che il mio team deve spendere per design
 # Author      : Andrea Grosso
-# Date        : 18.07.2020
-# Revision    : R1
+# Date        : 05.09.2020
+# Revision    : R2
 # note        : Aggiunto Sale Support e note durante la creazione della tabella
 #             : Vedere di gestire il numero di caratteri per i commenti (Max 20)
+#             : Modificato il nome del database (ne crea solo uno grande all'anno)
+#             : Iniziato ad aggiungere il project manager
 ########################################################################
 # Importo le librerie che mi interessano
 from datetime import date
@@ -82,9 +84,9 @@ def Interfaccia(ID):                                                            
 
 
 def genera_nome():                                                                                                      # genera il nome del file
-    mese = time.strftime("%B")                                                                                          # importa il mese
+    #mese = time.strftime("%B")                                                                                          # importa il mese
     anno = time.strftime("%Y")                                                                                          # importa l'anno
-    nome_file = f"{mese} {anno}"                                                                                        # crea il nome del file
+    nome_file = anno                                                                                                        # crea il nome del file
     return(nome_file)
 
 

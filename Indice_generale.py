@@ -60,7 +60,7 @@ if __name__ == "__main__":
     ore_settimanali = float(ore_settimanali())
 #Parte riguardante i progetti esistenti
     if cosa_fare.upper() == 'E':
-        print("Apro il databse dei progetti esistenti")
+        print("Apro il database dei progetti esistenti")
         settimana_corrente = date.today().isocalendar()[1]
         file_name = str(Manager_software.genera_nome()) + ".db"
         while True:
