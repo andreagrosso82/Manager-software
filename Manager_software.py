@@ -53,7 +53,7 @@ def controllo_ID(file_name):
     c.execute("SELECT * FROM " + Nome_Table)
     rows = c.fetchall()
     for row in rows:
-        ID = row[0] + 1
+        ID = (row[0] + 1)
     return (ID)
 
 # Muovere questa funzione nel Indice Generale file (Lascia cosi' per il momento)

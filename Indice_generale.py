@@ -60,6 +60,8 @@ if __name__ == "__main__":
         settimana_corrente = date.today().isocalendar()[1]
         if not isfile(file_name):                                                                                       # controlla se il file esiste gia' o deve essere creato
             ID = 1
+            DB = Manager_software.Crea_DB(file_name)
+            DB.genera_tabella()
         else:
             ID = Manager_software.controllo_ID(file_name)
         while True:
